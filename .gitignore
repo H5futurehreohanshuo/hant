@@ -1,0 +1,14 @@
+*.log*
+.cache
+.DS_Store
+.idea
+.vscode
+packages/**/lib
+es
+lib
+node_modules
+example/dist
+/docs/dist
+test/coverage
+packages/vant-css/build
+packages/vant-css/icons
