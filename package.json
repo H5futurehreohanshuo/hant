@@ -3,8 +3,12 @@
   "version": "1.0.0",
   "description": "仿 vant",
   "main": "lib/index.js",
-  "dependencies": {},
+  "dependencies": {
+    "fs-extra": "^6.0.1"
+  },
   "devDependencies": {
+    "fast-glob": "^2.2.2",
+    "uppercamelcase": "^3.0.0",
     "webpack": "^4.10.2",
     "webpack-serve": "^1.0.2"
   },
