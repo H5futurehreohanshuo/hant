@@ -18,46 +18,98 @@ const root = path.join(__dirname, '../../');
 // 所有某一个文件或文件夹的绝对路径
 const join = dir => path.join(root, dir);
 
+// 创建 hant 的入口文件
 function buildHantEntry() {
+  // 不会自动引入到 Vue 中的组件，但是会暴露出去用户可以自行引入
   const uninstallComponent = [
     'Lazyload',
     'Waterfall'
   ];
 
+  // import 所有在 packages 下面的组件文件夹 
   const importList = Components.map(name => `import ${uppercamelize(name)} from './${name}';`);
+  // 所有 use 到 vue 中的组件
   const exportList = Components.map(name => `${uppercamelize(name)}`);
   const intallList = exportList.filter(name => !~uninstallComponent.indexOf(uppercamelize(name)));
   const content = `${tips}
-  ${importList.join('\n')}
+${importList.join('\n')}
 
-  const version = '${version}';
-  const components = [
-    ${intallList.join(',\n  ')}
-  ];
+const version = '${version}';
+const components = [
+  ${intallList.join(',\n  ')}
+];
 
-  const install = Vue => {
-    components.forEach(Component => {
-      Vue.use(Component);
-    });
-  }
+const install = Vue => {
+  components.forEach(Component => {
+    Vue.use(Component);
+  });
+}
 
-  /* istanbul ignore if */
-  if (typeof window !== 'undefined' && window.Vue) {
-    install(window.Vue);
-  }
+/* istanbul ignore if */
+if (typeof window !== 'undefined' && window.Vue) {
+  install(window.Vue);
+}
 
-  export {
-    install,
-    version,
-    ${exportList.join(',\n  ')}
-  }
+export {
+  install,
+  version,
+  ${exportList.join(',\n  ')}
+}
 
-  export default {
-    install,
-    version,
-  };
-  `;
+export default {
+  install,
+  version,
+};
+`;
 
   fs.writeFileSync(path.join(__dirname, '../../packages/index.js'), content);
 }
-buildHantEntry()
+
+// 创建 demo 的入口文件（demo-entry.js）
+function buildDemoEntry() {
+  const dir = path.join(__dirname, '../../packages');
+  // 获取 packages 下所有的文件/文件夹，排除没有 /demo/index.vue 的文件/文件夹
+  // 并通过 wrapper 方法异步引入各个组件下的 demo 中的 index.vue 文件
+  const demos = fs.readdirSync(dir)
+    .filter(name => fs.existsSync(path.join(dir, `${name}/demo/index.vue`)))
+    .map(name => `'${name}': () => wrapper(import('../../packages/${name}/demo'), '${name}')`);
+  const content = `${tips}
+import { wrapper } from './demo-common';
+
+export default {
+  ${demos.join(',\n  ')}
+};
+`;
+  fs.writeFileSync(path.join(dir, '../docs/src/demo-entry.js'), content);
+}
+
+// 为 markdown 文档生成 webpack 入口文件
+function buildDocsEntry() {
+  // 输入文件
+  const output = join('docs/src/docs-entry.js');
+  // 把 .md 的全路径改为 -> 文件名.en-US | 文件名.zh-CN
+  const getName = fullPath => fullPath.replace(/\/(en|zh)/, '.$1').split('/').pop().replace('.md', '');
+  // 找出所有的 .md 文件
+  const docs = glob
+    .sync([
+      join('docs/**/.md'),
+      join('packages/**/.md'),
+      '!**/node_modules/**'
+    ])
+    .map(fullPath => {
+      const name = getName(fullPath);
+      return `'${name}': () => import('${path.relative(join('docs/src'), fullPath)}')`;
+    });
+
+  const content = `${tips}
+export default {
+  ${docs.join(',\n  ')}
+};
+`;
+  fs.writeFileSync(output, content);
+
+}
+
+buildHantEntry();
+buildDemoEntry();
+buildDocsEntry();
