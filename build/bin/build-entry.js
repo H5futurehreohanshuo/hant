@@ -18,8 +18,8 @@ const root = path.join(__dirname, '../../');
 // 所有某一个文件或文件夹的绝对路径
 const join = dir => path.join(root, dir);
 
-// 创建 hant 的入口文件
-function buildHantEntry() {
+// 创建 vant 的入口文件
+function buildVantEntry() {
   // 不会自动引入到 Vue 中的组件，但是会暴露出去用户可以自行引入
   const uninstallComponent = [
     'Lazyload',
@@ -110,6 +110,6 @@ export default {
 
 }
 
-buildHantEntry();
+buildVantEntry();
 buildDemoEntry();
 buildDocsEntry();
