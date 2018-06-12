@@ -7,6 +7,25 @@ function camelize(str) {
   return str.replace(camelizeRE, (_, c) => c.toUpperCase());
 }
 
+/**
+ * 判断 value 是否有定义
+ * @param {Any} value 需要判断的值
+ */
+function isDef(value) {
+  return value !== undefined && value !== null;
+}
+
+/**
+ * 判断 x 是否是对象
+ * @param {Any} x 需要判断的值
+ */
+function isObj(x) {
+  const type = typeof x;
+  return x !== null && (type === 'object' || type === 'function');
+}
+
 export {
-  camelize
+  camelize,
+  isDef,
+  isObj
 }
