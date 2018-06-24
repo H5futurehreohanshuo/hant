@@ -1,3 +1,5 @@
+/* 工具函数 */
+
 const camelizeRE = /-(\w)/g;
 /**
  * 将横杠连接改为驼峰式，如 address-edit -> addressEdit
@@ -24,8 +26,25 @@ function isObj(x) {
   return x !== null && (type === 'object' || type === 'function');
 }
 
+/**
+ * 从 . 的连缀写法中拿到对象的属性
+ * @param {Object} object 原对象
+ * @param {String} path 需要的属性
+ */
+function get(object, path) {
+  const keys = path.split('.');
+  let result = object;
+
+  keys.forEach(key => {
+    result = isDef(result[key]) ? result[key] : '';
+  });
+
+  return result;
+}
+
 export {
   camelize,
   isDef,
-  isObj
+  isObj,
+  get
 }
