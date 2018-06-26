@@ -101,7 +101,7 @@ export default {
     &:nth-child(3n+2) {
       margin-right: 4%;
     }
-    
+
     h4 {
       font-size: 14px;
       line-height: 20px;
