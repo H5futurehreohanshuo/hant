@@ -21,8 +21,8 @@ function getDefaultLang() {
   const hash = location.hash;
 
   for (let i = 0; i < langs.length;i ++) {
-    if (hash.indexOf(lang[i] !== -1)) {
-      return lang[i];
+    if (hash.indexOf(langs[i] !== -1)) {
+      return langs[i];
     }
   }
 

@@ -8,7 +8,6 @@ import { isMobile } from './utils';
 import './components/nprogress.css';
 
 Vue.use(VueRouter).use(VantDoc);
-
 const router = new VueRouter({
   mode: 'hash',
   routes: routes()

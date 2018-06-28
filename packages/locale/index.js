@@ -18,7 +18,7 @@ const locale = {
     this.add({ [lang]: messages });
   },
 
-  add(message = {}) {
+  add(messages = {}) {
     deepAssign(proto.$vantMessages, messages);
   }
 };

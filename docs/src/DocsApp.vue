@@ -7,6 +7,8 @@
 </template>
 
 <script>
+import docConfig from './doc.config';
+
 export default {
   data() {
     return {
@@ -25,6 +27,7 @@ export default {
     },
 
     currentSimulator() {
+      return 0;
       const { name } = this.$route;
       return name && name.indexOf('demo') !== -1 ? 1 : 0;
     }

@@ -64,6 +64,8 @@ export default {
 </script>
 
 <style lang="postcss">
+@import '../../../packages/vant-css/src/common/var.css';
+
 .mobile-nav-group {
   border-radius: 2px;
   margin-bottom: 15px;
@@ -82,7 +84,7 @@ export default {
     user-select: none;
 
     &:active {
-      background-color: $active-color;
+      // background-color: $active-color;
     }
 
     &--open {

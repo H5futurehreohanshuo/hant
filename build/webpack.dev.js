@@ -8,7 +8,7 @@ module.exports = {
   mode: 'development',
   entry: {
     'vant-docs': './docs/src/index.js',
-    'vant-mobile': './docs/src/mobile.js'
+    // 'vant-mobile': './docs/src/mobile.js'
   },
   output: {
     path: path.join(__dirname, '../docs/dist'),
@@ -20,7 +20,7 @@ module.exports = {
     children: false
   },
   serve: {
-    open: true,
+    open: false,
     host: '0.0.0.0',
     dev: {
       logLevel: 'warn'
@@ -90,11 +90,11 @@ module.exports = {
       filename: 'index.html',
       inject: true
     }),
-    new HtmlWebpackPlugin({
-      chunks: ['vant-mobile'],
-      template: 'docs/src/index.tpl',
-      filename: 'mobile.html',
-      inject: true
-    })
+    // new HtmlWebpackPlugin({
+    //   chunks: ['vant-mobile'],
+    //   template: 'docs/src/index.tpl',
+    //   filename: 'mobile.html',
+    //   inject: true
+    // })
   ]
 };
